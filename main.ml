@@ -1,27 +1,37 @@
 open Printf;;
 
 let symbol_str = "+-*/^v";;
+let nbParenthDeleted = 0;
 
-(* return 0 si on trouve [symbol] dans [str] sans qu'il soit dans des parenthèses, sinon return 1 *)
 
-let rec iCanFindThisSymbol str symbol i nbParenth = Printf.printf ("i=%d\n") i;
+
+(* let part_before_ str symbol *)
+(*
+str est une partie du calcul, il faut rappeler parcour avec str en parametre, et renvoyer ce que renvoi parcour
+*)
+
+
+
+
+(* return l'endroit ou on trouve symbol dans str (depend de parenthAutorized), return -1 si absent *)
+
+let rec iCanFindThisSymbol str nbParenthAutorized symbol i nbParenth =
   match i with
-    | i when i == String.length str -> 1    (* si on est a la fin de la chaine *)
-    | _ -> if str.[i] == symbol && nbParenth == 0 then 0 else match str.[i] with
-                | '(' -> iCanFindThisSymbol str symbol (i + 1) (nbParenth + 1)
-                | ')' -> iCanFindThisSymbol str symbol (i + 1) (nbParenth - 1)
-                | symbol when nbParenth != 0 -> iCanFindThisSymbol str symbol (i + 1) nbParenth
-                | _ -> iCanFindThisSymbol str symbol (i + 1) nbParenth
+    | i when i == String.length str -> -1    (* si on est a la fin de la chaine *)
+    | _ -> if str.[i] == symbol && nbParenth <= nbParenthAutorized then i else match str.[i] with
+                | '(' -> iCanFindThisSymbol str nbParenthAutorized symbol (i + 1) (nbParenth + 1)
+                | ')' -> iCanFindThisSymbol str nbParenthAutorized symbol (i + 1) (nbParenth - 1)
+                | _ -> iCanFindThisSymbol str nbParenthAutorized symbol (i + 1) nbParenth
 ;;
 
-
-let rec parcour str symbol_str i =
-  match (iCanFindThisSymbol (str) (symbol_str.[i]) (0) (0)) with
-    | 1 when i <= 4 -> parcour str symbol_str (i + 1) (*si on trouve pas symbol dans str on passe au suivant*) 
-    | others -> 0
+let rec parcourSymbol str nbParenthAutorized i =
+  let posI = (iCanFindThisSymbol str nbParenthAutorized symbol_str.[i] 0 0);
+  match posI with
+    | -1 when i <= 4 -> parcourSymbol str nbParenthAutorized (i + 1) (*si on trouve pas symbol dans str on passe au suivant*) 
+    | -1 when i == 5 -> -3333
 ;;
 (*
-    | 0 -> match symbol_str.[i] with
+    | _ -> match symbol_str.[i] with
              | '+' -> ADD_FUN (part_before_+) (part_after_+)
              | '-' -> DIF_FUN (part_before_-) (part_after_-)
              | '*' -> PRO_FUN (part_before_x) (part_after_x)
@@ -31,11 +41,18 @@ let rec parcour str symbol_str i =
   str;;
 *)
 
+let rec parcourParenth str nbParenthAutorized =
+  let res = parcourSymbol str nbParenthAutorized 0;
+  match res with
+    | -3333 -> parcourParenth str (nbParenthAutorized + 1)    (*si j'ai rien trouve*)
+    | _ -> res
+;;
+
 let main argc argv =
   Printf.printf ("Command line has %i arguments\n") (argc - 1);
   for i = 1 to argc - 1 do
     Printf.printf "argument %i is %s\n" i argv.(i)
   done;
-  Printf.printf ("%d\n") (parcour argv.(1) symbol_str 0);;
+  Printf.printf ("%d\n") (parcourParenth argv.(1) 0);;
 
 main (Array.length Sys.argv) Sys.argv;;
