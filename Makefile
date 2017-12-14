@@ -5,13 +5,13 @@
 ## Login   <maxime.lacroix@epitech.eu>
 ## 
 ## Started on  Tue Dec 12 22:49:20 2017 DESKTOP-FQFT07H
-## Last update Wed Dec 13 00:04:12 2017 DESKTOP-FQFT07H
+## Last update Thu Dec 14 18:33:56 2017 berruex renan
 ##
 
 
 OC   = ocamlc
 
-SRC  = main.ml
+SRC	= main.ml
 
 NAME = funEvalExpr
 
@@ -28,5 +28,4 @@ clean:
 fclean:
 	rm $(OBJ) $(NAME)
 
-re:
-	fclean all
+re:	fclean all
