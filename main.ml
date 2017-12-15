@@ -77,10 +77,6 @@ if (simpleNumber str 0) == 0 then (deleteUselessParenthEnd (deleteUselessParenth
 ;;
 
 let main argc argv =
-  Printf.printf ("Command line has %i arguments\n") (argc - 1);
-  for i = 1 to argc - 1 do
-    Printf.printf "argument %i is %s\n" i argv.(i)
-  done;
   Printf.printf ("%s\n") (parcourParenth argv.(1) 0);;
 
 main (Array.length Sys.argv) Sys.argv;;
