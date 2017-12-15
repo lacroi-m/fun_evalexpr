@@ -3,6 +3,7 @@ open Printf;;
 let symbol_str = "+-*/^v";;
 
 
+
 (* let part_before_ str symbol *)
 (*
 str est une partie du calcul, il faut rappeler parcour avec str en parametre, et renvoyer ce que renvoi parcour
@@ -29,12 +30,12 @@ let rec parcourSymbol str nbParenthAutorized i =
 ;;
 (*
     | _ -> match symbol_str.[i] with
-             | '+' -> ADD_FUN (part_before_+) (part_after_+)
-             | '-' -> DIF_FUN (part_before_-) (part_after_-)
-             | '*' -> PRO_FUN (part_before_x) (part_after_x)
-             | '/' -> DIV_FUN (part_before_/) (part_after_/)
-             | '^' -> POW_FUN (part_before_^) (part_after_^)
-             | 'v' -> SQU_FUN (part_before_v) (part_after_v)
+             | '+' -> add_fun (part_before_+) (part_after_+)
+             | '-' -> dif_fun (part_before_-) (part_after_-)
+             | '*' -> pro_fun (part_before_x) (part_after_x)
+             | '/' -> div_fun (part_before_/) (part_after_/)
+             | '^' -> pow_fun (part_before_^) (part_after_^)
+             | 'v' -> squ_fun (part_before_v) (part_after_v)
   str;;
 *)
 
