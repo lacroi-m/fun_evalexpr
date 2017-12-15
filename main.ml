@@ -62,7 +62,7 @@ let rec parcourSymbol str nbParenthAutorized i =
              | '*' -> FUN.pro_fun (parcourParenth (getFirstPart str posI) 0) (parcourParenth (getSecondPart str posI) 0)
              | '/' -> FUN.div_fun (parcourParenth (getFirstPart str posI) 0) (parcourParenth (getSecondPart str posI) 0)
              | '^' -> FUN.pow_fun (parcourParenth (getFirstPart str posI) 0) (parcourParenth (getSecondPart str posI) 0)
-             | 'v' -> FUN.squ_fun (parcourParenth (getFirstPart str posI) 0) (parcourParenth (getSecondPart str posI) 0)
+             | 'v' -> FUN.squ_fun (parcourParenth (getSecondPart str posI) 0)
              | _ -> str
 
 and
