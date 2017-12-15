@@ -5,11 +5,11 @@
 ## Login   <maxime.lacroix@epitech.eu>
 ## 
 ## Started on  Tue Dec 12 22:49:20 2017 DESKTOP-FQFT07H
-## Last update Fri Dec 15 12:10:14 2017 ze
+## Last update Fri Dec 15 12:55:55 2017 berruex renan
 ##
 
 
-OC   = ocamlc
+OC   = ocamlc 
 
 SRC	= FUN.ml \
 	  main.ml

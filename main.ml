@@ -2,12 +2,40 @@ open Printf;;
 
 let symbol_str = "+-*/^v";;
 
+(******* return 1 si y'a un symbol dans str, sinon return 0 *******)
+let rec simpleNumber str i =
+  match i with
+    | i when i == String.length str -> 0
+    | _ -> match str.[i] with
+           | '+' -> 1
+           | '-' -> 1
+           | '*' -> 1
+           | '/' -> 1
+           | '^' -> 1
+           | 'v' -> 1
+           | _ -> simpleNumber str (i + 1)
+;;
+
+(** fonctions qui enleve les parentheses au debut et a la fin de str**)
+
+let rec deleteUselessParenthEnd str i =
+   match str.[i] with
+     | ')' -> deleteUselessParenthEnd str (i - 1)
+     | _ -> String.sub str 0 (i + 1)
+;;
+
+let rec deleteUselessParenthBegin str i =
+  match str.[i] with
+    | '(' -> deleteUselessParenthBegin str (i + 1)
+    | _ -> String.sub str i ((String.length str) - i)
+;;
 
 
-(* let part_before_ str symbol *)
-(*
-str est une partie du calcul, il faut rappeler parcour avec str en parametre, et renvoyer ce que renvoi parcour
-*)
+let getFirstPart str posI = String.sub str 0 posI
+;;
+
+let getSecondPart str posI = String.sub str (posI + 1) ((String.length str) - posI - 1)
+;;
 
 
 (* return l'endroit ou on trouve symbol dans str (depend de parenthAutorized), return -1 si absent *)
@@ -22,29 +50,29 @@ let rec iCanFindThisSymbol str nbParenthAutorized symbol i nbParenth =
                 | _ -> iCanFindThisSymbol str nbParenthAutorized symbol (i + 1) nbParenth
 ;;
 
+
 let rec parcourSymbol str nbParenthAutorized i =
   let posI = (iCanFindThisSymbol str nbParenthAutorized symbol_str.[i] 0 0) in
   match posI with
     | -1 when i <= 4 -> parcourSymbol str nbParenthAutorized (i + 1) (*si on trouve pas symbol dans str on passe au suivant*)
-    | -1 when i == 5 -> -3333
-;;
-(*
+    | -1 when i == 5 -> "notFind"
     | _ -> match symbol_str.[i] with
-             | '+' -> add_fun (part_before_+) (part_after_+)
-             | '-' -> dif_fun (part_before_-) (part_after_-)
-             | '*' -> pro_fun (part_before_x) (part_after_x)
-             | '/' -> div_fun (part_before_/) (part_after_/)
-             | '^' -> pow_fun (part_before_^) (part_after_^)
-             | 'v' -> squ_fun (part_before_v) (part_after_v)
-  str;;
-*)
+             | '+' -> FUN.add_fun (parcourParenth (getFirstPart str posI) 0) (parcourParenth (getSecondPart str posI) 0)
+             | '-' -> FUN.dif_fun (parcourParenth (getFirstPart str posI) 0) (parcourParenth (getSecondPart str posI) 0)
+             | '*' -> FUN.pro_fun (parcourParenth (getFirstPart str posI) 0) (parcourParenth (getSecondPart str posI) 0)
+             | '/' -> FUN.div_fun (parcourParenth (getFirstPart str posI) 0) (parcourParenth (getSecondPart str posI) 0)
+             | '^' -> FUN.pow_fun (parcourParenth (getFirstPart str posI) 0) (parcourParenth (getSecondPart str posI) 0)
+             | 'v' -> FUN.squ_fun (parcourParenth (getFirstPart str posI) 0) (parcourParenth (getSecondPart str posI) 0)
+             | _ -> str
 
-let rec parcourParenth str nbParenthAutorized =
+and
+parcourParenth str nbParenthAutorized =
+if (simpleNumber str 0) == 0 then (deleteUselessParenthEnd (deleteUselessParenthBegin str 0) (String.length (deleteUselessParenthBegin str 0) - 1)) else
   match nbParenthAutorized with
-    | nbParenthAutorized when nbParenthAutorized > 10 -> 0
+    | nbParenthAutorized when nbParenthAutorized > 15 -> "0"
     | _ -> let res = parcourSymbol str nbParenthAutorized 0 in
            match res with
-           | -3333 -> parcourParenth str (nbParenthAutorized + 1)    (*si j'ai rien trouve*)
+           | "notFind" -> parcourParenth str (nbParenthAutorized + 1)
            | _ -> res
 ;;
 
@@ -53,6 +81,6 @@ let main argc argv =
   for i = 1 to argc - 1 do
     Printf.printf "argument %i is %s\n" i argv.(i)
   done;
-  Printf.printf ("%d\n") (parcourParenth argv.(1) 0);;
+  Printf.printf ("%s\n") (parcourParenth argv.(1) 0);;
 
 main (Array.length Sys.argv) Sys.argv;;
