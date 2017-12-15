@@ -76,7 +76,19 @@ if (simpleNumber str 0) == 0 then (deleteUselessParenthEnd (deleteUselessParenth
            | _ -> res
 ;;
 
+let rec gestionDerreur str i =
+  match i with 
+    | i when i == String.length str -> 0
+    | _ -> match str.[i] with
+           | '+' | '-' | '*' | '/' | '^' | 'v' | ' ' | '(' | ')' | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' -> gestionDerreur str (i + 1)
+           | _ -> 84
+;;
+
 let main argc argv =
-  Printf.printf ("%s\n") (parcourParenth argv.(1) 0);;
+  let returnVerif = (gestionDerreur argv.(1) 0) in
+  match returnVerif with
+    | 0 -> Printf.printf ("%s\n") (parcourParenth argv.(1) 0)
+    | _ -> Printf.eprintf "Error : autorized characters are [+] [-] [*] [/] [^] [v] [0-9] [(] [)] [ ]\n"; exit 84
+;;
 
 main (Array.length Sys.argv) Sys.argv;;
