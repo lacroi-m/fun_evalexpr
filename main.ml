@@ -87,7 +87,7 @@ let rec gestionDerreur str i =
 let main argc argv =
   let returnVerif = (gestionDerreur argv.(1) 0) in
   match returnVerif with
-    | 0 -> Printf.printf ("%s\n") (parcourParenth argv.(1) 0)
+    | 0 -> Printf.printf ("%s\n") (parcourParenth (FUN.nowhite argv.(1)) 0)
     | _ -> Printf.eprintf "Error : autorized characters are [+] [-] [*] [/] [^] [v] [0-9] [(] [)] [ ]\n"; exit 84
 ;;
 
