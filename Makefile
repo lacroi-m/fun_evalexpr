@@ -5,13 +5,14 @@
 ## Login   <maxime.lacroix@epitech.eu>
 ## 
 ## Started on  Tue Dec 12 22:49:20 2017 DESKTOP-FQFT07H
-## Last update Thu Dec 14 18:35:00 2017 berruex renan
+## Last update Fri Dec 15 12:10:14 2017 ze
 ##
 
 
 OC   = ocamlc
 
-SRC	= main.ml
+SRC	= FUN.ml \
+	  main.ml
 
 NAME = funEvalExpr
 
