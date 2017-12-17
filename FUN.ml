@@ -44,7 +44,7 @@ match (doubleop str) with
 | true -> nodoubleop (replace str)
 | false -> str
 ;;
-
+(*
 let main argc argv =
 Printf.printf ("Command line has %i arguments\n") (argc - 1);
 Printf.printf "%s\n%s\n" argv.(1) (nodoubleop argv.(1));;
@@ -55,3 +55,4 @@ Printf.printf "%s\n" (squ_fun (nowhite argv.(1)));
 ;; *)
 
 main (Array.length Sys.argv) Sys.argv;;
+*)

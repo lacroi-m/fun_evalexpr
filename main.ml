@@ -84,10 +84,42 @@ let rec gestionDerreur str i =
            | _ -> 84
 ;;
 
+
+let needP str =
+try
+  Str.search_forward (Str.regexp "\\+\\+\\|--") str 0
+with
+  Not_found -> 666
+;;
+
+let needM str =
+try
+  Str.search_forward (Str.regexp "\\+-\\|-\\+") str 0
+with
+  Not_found -> 666
+;;    
+
+let remplaceP str =
+Str.replace_first (Str.regexp "\\+\\+\\|--") "+" str
+;;    
+
+let remplaceM str =
+Str.replace_first (Str.regexp "\\+-\\|-\\+") "-" str
+;;
+
+let rec deleteUselessOpe str =
+  match (needP str) with
+    | 666 -> (match (needM str) with
+              | 666 -> str
+              | _ -> deleteUselessOpe (remplaceM str))
+    | _ -> deleteUselessOpe (remplaceP str)
+
+
+
 let main argc argv =
   let returnVerif = (gestionDerreur argv.(1) 0) in
   match returnVerif with
-    | 0 -> Printf.printf ("%s\n") (parcourParenth (FUN.nowhite argv.(1)) 0)
+    | 0 -> Printf.printf ("%s\n") (parcourParenth (FUN.nowhite (deleteUselessOpe argv.(1))) 0)
     | _ -> Printf.eprintf "Error : autorized characters are [+] [-] [*] [/] [^] [v] [0-9] [(] [)] [ ]\n"; exit 84
 ;;
 
